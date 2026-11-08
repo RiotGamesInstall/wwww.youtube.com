@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYSTEM CRITICAL ERROR - WARNING 0x80070005</title>
+    <!-- Ícono de alerta en la pestaña -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚠️</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            color: #ff0000;
+            font-family: 'Courier New', Courier, monospace;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        .container {
+            text-align: center;
+            border: 2px solid #ff0000;
+            padding: 40px;
+            box-shadow: 0 0 25px #ff0000;
+            background-color: rgba(20, 0, 0, 0.95);
+            max-width: 90%;
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+            animation: blink 0.7s infinite alternate;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .ip-info {
+            color: #ff3333;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            cursor: pointer;
+        }
+
+        .btn-start {
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 15px 30px;
+            font-family: monospace;
+            font-size: 1.2rem;
+            background: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 10px #00ff00;
+            border-radius: 4px;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; text-shadow: 0 0 15px #ff0000; }
+            100% { opacity: 0.2; text-shadow: 0 0 2px #ff0000; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay" id="startOverlay">
+        <button class="btn-start">>>> CLICK PARA CONTINUAR <<<</button>
+    </div>
+
+    <div class="container">
+        <h1>¡HAS SIDO HACKEADO!</h1>
+        <p>Todos tus archivos, contraseñas y datos bancarios han sido comprometidos.</p>
+        <p>Iniciando transferencia masiva a servidor remoto...</p>
+        <p class="ip-info">ESTADO DE ARCHIVOS: <span style="color: red;">ENCRIPTANDO...</span></p>
+        <p class="ip-info">SISTEMA OPERATIVO: <span style="color: red; font-weight: bold;">BLOQUEADO</span></p>
+    </div>
+
+    <script>
+        const overlay = document.getElementById('startOverlay');
+
+        function playScarySound() {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+            // Oscilador grave de fondo
+            const osc1 = audioCtx.createOscillator();
+            osc1.type = 'sawtooth';
+            osc1.frequency.setValueAtTime(40, audioCtx.currentTime);
+
+            // Oscilador agudo disonante (alarma)
+            const osc2 = audioCtx.createOscillator();
+            osc2.type = 'square';
+            osc2.frequency.setValueAtTime(43.5, audioCtx.currentTime);
+
+            const gainNode = audioCtx.createGain();
+            gainNode.gain.setValueAtTime(0.01, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.8, audioCtx.currentTime + 0.1);
+
+            osc1.connect(gainNode);
+            osc2.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            osc1.start();
+            osc2.start();
+
+            // Modulación aleatoria de la frecuencia para generar tensión
+            setInterval(() => {
+                const randomFreq = 35 + Math.random() * 20;
+                osc1.frequency.exponentialRampToValueAtTime(randomFreq, audioCtx.currentTime + 0.4);
+            }, 400);
+        }
+
+        function requestFullScreen() {
+            const doc = document.documentElement;
+            if (doc.requestFullscreen) {
+                doc.requestFullscreen();
+            } else if (doc.mozRequestFullScreen) {
+                doc.mozRequestFullScreen();
+            } else if (doc.webkitRequestFullscreen) {
+                doc.webkitRequestFullscreen();
+            } else if (doc.msRequestFullscreen) {
+                doc.msRequestFullscreen();
+            }
+        }
+
+        overlay.addEventListener('click', () => {
+            overlay.style.display = 'none';
+            requestFullScreen();
+            playScarySound();
+        });
+    </script>
+</body>
+</html>
